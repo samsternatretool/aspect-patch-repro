@@ -1,0 +1,47 @@
+module(
+    name = "retool-development",
+    version = "0.0.1",
+)
+
+bazel_dep(name = "aspect_rules_js", version = "2.0.0-rc8")
+
+bazel_dep(name = "rules_nodejs", version = "6.2.0")
+
+node = use_extension("@rules_nodejs//nodejs:extensions.bzl", "node")
+node.toolchain(node_version = "18.18.2")
+
+use_repo(
+    node,
+    "nodejs_darwin_arm64",
+    "nodejs_linux_amd64",
+)
+
+pnpm = use_extension("@aspect_rules_js//npm:extensions.bzl", "pnpm", dev_dependency = True)
+pnpm.pnpm(
+    name = "pnpm-9-5-0",
+    pnpm_version = "9.5.0",
+)
+use_repo(pnpm, pnpm = "pnpm-9-5-0")
+
+npm = use_extension("@aspect_rules_js//npm:extensions.bzl", "npm", dev_dependency = True)
+
+npm.npm_translate_lock(
+    name = "npm_deps",
+    custom_postinstalls = {},
+    data = [
+        ":package.json",
+        ":patches/@reduxjs__toolkit@1.9.7.patch",
+    ],
+    lifecycle_hooks = {},
+    lifecycle_hooks_use_default_shell_env = {
+        "java": "true",
+    },
+    npm_package_target_name = "{dirname}_npm_package",
+    npmrc = "//:.npmrc",
+    patch_args = {},
+    pnpm_lock = "//:pnpm-lock.yaml",
+    quiet = False,
+    use_pnpm = "@pnpm//:package/bin/pnpm.cjs",
+    verify_node_modules_ignored = "//:.bazelignore",
+)
+use_repo(npm, "npm_deps")

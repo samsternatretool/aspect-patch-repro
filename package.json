@@ -1,0 +1,38 @@
+{
+    "name": "retool_development",
+    "version": "1.0.0",
+    "private": true,
+    "license": "UNLICENSED",
+    "author": "Retool Inc.",
+    "workspaces": {
+      "//": [
+      ],
+      "packages": [
+      ]
+    },
+    "scripts": {
+    },
+    "dependencies": {
+      "@reduxjs/toolkit": "1.9.7"
+    },
+    "devDependencies": {
+    },
+    "engines": {
+      "node": "18",
+      "pnpm": "^9.5.0"
+    },
+    "pnpm": {
+      "peerDependencyRules": {
+      },
+      "onlyBuiltDependencies": [
+        "@reduxjs/toolkit"
+      ],
+      "allowNonAppliedPatches": true,
+      "patchedDependencies": {
+        "@reduxjs/toolkit@1.9.7": "patches/@reduxjs__toolkit@1.9.7.patch"
+      },
+      "packageExtensions": {
+      }
+    }
+  }
+  
